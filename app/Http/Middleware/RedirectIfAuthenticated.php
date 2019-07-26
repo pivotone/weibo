@@ -19,7 +19,8 @@ class RedirectIfAuthenticated
     {
         if (Auth::guard($guard)->check()) {
             session()->flash('info','已登陆，请勿重复操作');
-            return redirect('/');
+            $fallback = route('users.show',Auth::user());
+            return redirect()->intended($fallback);
         }
 
         return $next($request);
